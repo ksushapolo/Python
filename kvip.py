@@ -1,4 +1,4 @@
-from tkinter import*
+from tkinter import Tk, PhotoImage, Label, Button, LEFT
 
 
 isNotWork = True
@@ -38,6 +38,7 @@ funny = PhotoImage(file="funny.png")
 ill = PhotoImage(file="ill.png")
 school = PhotoImage(file="school.png")
 sleep = PhotoImage(file="sleep.png")
+sport = PhotoImage(file="sport.png")
 
 
 def updatedisplay():
@@ -117,7 +118,7 @@ def feed():
     if real():
         food += 25
         normalLabel.config(image=eat)
-        normalLabel.after(1000, updatedisplay)
+        normalLabel.after(1000000, updatedisplay)
     else:
         return
 
@@ -127,7 +128,7 @@ def sleeping():
     if real():
         health += 20
         normalLabel.config(image=sleep)
-        normalLabel.after(1000, updatedisplay)
+        normalLabel.after(1000000, updatedisplay)
     else:
         return
 
@@ -136,6 +137,8 @@ def treat():
     global health
     if real():
         health += 30
+        normalLabel.config(image=sport)
+        normalLabel.after(1000000, updatedisplay)
     else:
         return
 
@@ -145,7 +148,7 @@ def havefun():
     if real():
         mood += 20
         normalLabel.config(image=funny)
-        normalLabel.after(1000, updatedisplay)
+        normalLabel.after(1000000, updatedisplay)
     else:
         return
 
@@ -155,7 +158,7 @@ def teach():
     if real():
         knowledge += 1
         normalLabel.config(image=school)
-        normalLabel.after(1000, updatedisplay)
+        normalLabel.after(1000000, updatedisplay)
 
 
 startLabel = Label(root, text="Press Enter to Start!")
