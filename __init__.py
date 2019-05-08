@@ -57,24 +57,32 @@ def callback_worker(call):
 
 def get_year(message):
     global year
-    if int(message.text) >= 2019:
-        year = message.text
-        bot.send_message(message.chat.id, 'Выберите месяц')
-        bot.register_next_step_handler(message, get_month)
+    if str(message.text).isdigit():
+        if int(message.text) >= 2019:
+            year = message.text
+            bot.send_message(message.chat.id, 'Выберите месяц')
+            bot.register_next_step_handler(message, get_month)
+        else:
+            bot.send_message(message.from_user.id, 'Введите корректный год')
+            bot.register_next_step_handler(message, get_year)
     else:
-        bot.send_message(message.from_user.id, 'Введите корректный год')
+        bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
         bot.register_next_step_handler(message, get_year)
 
 
 def get_month(message):
     global month
-    if int(message.text) > 12 or int(message.text) < 1:
-        bot.send_message(message.from_user.id, 'Введите корректный месяц')
-        bot.register_next_step_handler(message, get_month)
+    if str(message.text).isdigit():
+        if int(message.text) > 12 or int(message.text) < 1:
+            bot.send_message(message.from_user.id, 'Введите корректный месяц')
+            bot.register_next_step_handler(message, get_month)
+        else:
+            month = message.text
+            bot.send_message(message.from_user.id, 'Выберите день')
+            bot.register_next_step_handler(message, get_day)
     else:
-        month = message.text
-        bot.send_message(message.from_user.id, 'Выберите день')
-        bot.register_next_step_handler(message, get_day)
+        bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
+        bot.register_next_step_handler(message, get_month)
 
 
 def get_day(message):
@@ -82,37 +90,41 @@ def get_day(message):
     global month
     global year
     global goals_num
-    if int(message.text) < 1 or int(message.text) > 31:
-        bot.send_message(message.from_user.id, 'Введите корректный день')
-        bot.register_next_step_handler(message, get_day)
-    elif month == 2:
-        if (year % 100 == 0 or year % 4 == 0) and year % 400 != 0:
-            if int(message.text) > 29:
+    if str(message.text).isdigit():
+        if int(message.text) < 1 or int(message.text) > 31:
+            bot.send_message(message.from_user.id, 'Введите корректный день')
+            bot.register_next_step_handler(message, get_day)
+        elif month == 2:
+            if (year % 100 == 0 or year % 4 == 0) and year % 400 != 0:
+                if int(message.text) > 29:
+                    bot.send_message(message.from_user.id, 'Введите корректный день')
+                    bot.register_next_step_handler(message, get_day)
+                else:
+                    day = message.text
+                    bot.send_message(message.from_user.id, 'Введите количество целей на день')
+                    bot.register_next_step_handler(message, get_goals_num)
+            elif int(message.text) > 28:
                 bot.send_message(message.from_user.id, 'Введите корректный день')
                 bot.register_next_step_handler(message, get_day)
             else:
                 day = message.text
                 bot.send_message(message.from_user.id, 'Введите количество целей на день')
                 bot.register_next_step_handler(message, get_goals_num)
-        elif int(message.text) > 28:
-            bot.send_message(message.from_user.id, 'Введите корректный день')
-            bot.register_next_step_handler(message, get_day)
-        else:
-            day = message.text
-            bot.send_message(message.from_user.id, 'Введите количество целей на день')
-            bot.register_next_step_handler(message, get_goals_num)
-    elif month == 4 or month == 6 or month == 9 or month == 11:
-        if int(message.text) > 30:
-            bot.send_message(message.from_user.id, 'Введите корректный день')
-            bot.register_next_step_handler(message, get_day)
+        elif month == 4 or month == 6 or month == 9 or month == 11:
+            if int(message.text) > 30:
+                bot.send_message(message.from_user.id, 'Введите корректный день')
+                bot.register_next_step_handler(message, get_day)
+            else:
+                day = message.text
+                bot.send_message(message.from_user.id, 'Введите количество целей на день')
+                bot.register_next_step_handler(message, get_goals_num)
         else:
             day = message.text
             bot.send_message(message.from_user.id, 'Введите количество целей на день')
             bot.register_next_step_handler(message, get_goals_num)
     else:
-        day = message.text
-        bot.send_message(message.from_user.id, 'Введите количество целей на день')
-        bot.register_next_step_handler(message, get_goals_num)
+        bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
+        bot.register_next_step_handler(message, get_day)
 
 
 def get_goals_num(message):
